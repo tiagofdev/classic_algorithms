@@ -1,0 +1,165 @@
+<div class="container-fluid" style="padding:0;">
+
+  <div  class="container-fluid" style="margin:0;padding:0;">
+  <nav class="navbar navbar-light fixed-top  bg-success"
+    style="background-image: var(--bs-gradient);clear:both;position: relative;
+    margin-left:0;margin-right:0;">
+    <div class="container">
+      <a class="navbar-brand" href="#" style="font-size:2em;">Classic Algorithms</a>
+      <div class=" row float-right" style="margin-right:1em;">
+        <div class="col-sm d-none d-md-block">
+          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                  data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
+                  style="float:right; border:0;margin:auto;padding:0;outline:none;box-shadow:none;
+                  font-size:1.5em;text-align:center;line-height:1.5em;">
+            Menu
+          </button>
+        </div>
+        <button class="col-sm navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" style="float:right;">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+
+    </div>
+  </nav>
+  </div>
+
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Select Algorithm</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <form class="d-flex" style="margin-bottom:4px;">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+      <ul *ngFor="let problem of problems" class="navbar-nav justify-content-end flex-grow-1 pe-3" >
+        <li class="nav-item" style="margin-bottom:2px;">
+          <label class="btn btn-secondary" for="{{problem.value}}" id="{{problem.button}}"
+                 style="width:200px;background-image: var(--bs-gradient)">{{problem.label}}</label>
+          <input type="radio" class="btn-check" name="problem" id="{{problem.value}}"
+                 data-bs-dismiss="offcanvas" autocomplete="off" (change)="switchComponent(problem)">
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!--class="custom-control-input"-->
+  <div class="container-lg" id="appComponent">
+    <!-- Loading / Unloading child components dynamically -->
+
+    <!-- Method 1 -->
+    <!--    <ng-template dynamicChildLoader="{{currentComponent.value}}"></ng-template>-->
+
+    <!-- Method 2 -->
+    <!-- <ng-container [ngSwitch]="currentComponent.value">-->
+    <!--   <about *ngSwitchCase="'about'"></about>-->
+    <!--   <doubleit *ngSwitchCase="'doubleit'"></doubleit>-->
+    <!--   <twosum *ngSwitchCase="'twosum'"></twosum>-->
+    <!--   ... all components... -->
+    <!--  </ng-container>-->
+
+    <!--      About is the only option that will load a child component -->
+    <ng-container *ngIf="currentComponent.value == 'about'">
+      <about></about>
+<!--          <ng-template dynamicChildLoader="{{currentComponent.value}}"></ng-template>-->
+    </ng-container>
+
+    <!-- Method 3 -->
+    <!-- No new components - Just a frame that changes data according to selection -->
+
+    <ng-container *ngIf="currentComponent.value != 'about'">
+
+    <div style="margin:4px;">
+      <h3>{{data["title"]}}</h3>
+      <p>{{data["description"]}}</p>
+    </div>
+    <h5>Example:</h5>
+    <pre class="example" style="white-space:pre-wrap;">
+      {{data["examples"]}}
+    </pre>
+    <br>
+    <h5>Try it out!</h5>
+    <pre style="white-space: pre-wrap;">{{data['inputNotes']}}</pre>
+    <form #onesieForm="ngForm" (ngSubmit)="getResponse(onesieForm)">
+      <br>
+      <table>
+      <tr *ngFor="let input of data['inputs']; let i = index">
+        <td style="padding-right:8px;"><pre>{{input}}</pre></td>
+
+        <td *ngIf="data['patterns'][i] == 'numberInt'">
+          <input type="text" ngModel="" name="{{data['parameters'][i]}}" required max="100"
+          oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+          <!-- This restricts input from entering anything other than numeric values-->
+        </td>
+        <td *ngIf="data['patterns'][i] == 'numbersInt-commas'">
+          <input type="text" ngModel="" name="{{data['parameters'][i]}}" required max="100"
+          oninput="this.value = this.value.replace(/[^0-9 ,]/g, '').replace(/(\..*)\./g, '$1');">
+        </td>
+        <td *ngIf="data['patterns'][i] == 'letters'">
+          <input type="text" ngModel="" name="{{data['parameters'][i]}}" required
+          oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '').replace(/(\..*)\./g, '$1');">
+        </td>
+        <td *ngIf="data['patterns'][i] == 'letters-numbers'">
+          <input type="text" ngModel="" name="{{data['parameters'][i]}}" required
+                 oninput="this.value = this.value.replace(/[^0-9a-zA-Z]/g, '').replace(/(\..*)\./g, '$1');">
+        </td>
+        <td *ngIf="data['patterns'][i] == 'letters-numbers-notRequired'">
+          <input type="text" ngModel="" name="{{data['parameters'][i]}}"
+                 oninput="this.value = this.value.replace(/[^0-9a-zA-Z]/g, '').replace(/(\..*)\./g, '$1');">
+        </td>
+        <td *ngIf="data['patterns'][i] == 'letters-numbers-commas-parentheses'">
+          <input type="text" ngModel="" name="{{data['parameters'][i]}}" required
+                 oninput="this.value = this.value.replace(/[^0-9a-zA-Z,()]/g, '').replace(/(\..*)\./g, '$1');">
+        </td>
+        <td *ngIf="data['patterns'][i] == 'letters-numbers-space'">
+          <input type="text" ngModel="" name="{{data['parameters'][i]}}" required
+                 oninput="this.value = this.value.replace(/[^0-9a-zA-Z ]/g, '').replace(/(\..*)\./g, '$1');">
+        </td>
+      </tr>
+      </table>
+      <br>
+      <button class="btn btn-success" type="submit" [disabled]="onesieForm.invalid"
+      >Calculate</button>
+      <br><br>
+    </form>
+
+    <strong>Result:</strong>
+    <br>
+    <div>
+      <ng-container *ngIf=" (response$ | async) as app_state" [ngSwitch]="app_state.dataState">
+        <ng-container *ngSwitchCase="dataState.LOADING_STATE">
+          <div class="col-md-12 single-note-item text-center">
+            <div class="spinner-border text-info" role="status"></div>
+          </div>
+        </ng-container>
+        <ng-container *ngSwitchCase="dataState.LOADED_STATE">
+          <ul *ngFor="let result of app_state.response?.data?.results; let i = index">
+            <li style="list-style-type: none;">{{data['results'][i]}}{{result}}</li>
+          </ul>
+
+        </ng-container>
+        <ng-container *ngSwitchCase="dataState.ERROR_STATE">
+          <p>{{ app_state.error?.toString() }}</p>
+        </ng-container>
+      </ng-container>
+      <div id="sigma-container" >
+        <div id="graph"></div>
+      </div>
+
+    </div>
+    <br><br>
+    <h5>Java Algorithm:</h5>
+    <pre class="zebra">{{data["algorithm"]}}</pre>
+    <br>
+    <h5>References:</h5>
+    <a href="{{data['references']}}">{{data['references']}}</a>
+    </ng-container>
+  </div>
+
+</div>
+
+
+

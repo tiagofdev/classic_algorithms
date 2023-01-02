@@ -1,0 +1,16 @@
+service: classics-angular
+runtime: nodejs16
+
+instance_class: F2
+
+env_variables:
+  BUCKET_NAME: "classics.tiagofeitosa.com"
+
+handlers:
+  - url: /.*
+    static_files: dist/algorapp/index.html
+    upload: dist/algorapp/index.html
+
+  - url: /
+    static_dir: dist/algorapp
+

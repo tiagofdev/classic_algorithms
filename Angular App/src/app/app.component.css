@@ -1,0 +1,60 @@
+#appComponent {
+  background-color: white;
+  height: 100%;
+  margin-top: -8px;
+  padding: 8px;
+}
+
+.radios input[type="radio"] {
+  position: relative;
+  width: 0;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  background-color:white;
+}
+
+.radios label {
+  width: 80px;
+  text-align: center;
+  display: inline-block;
+  padding: 0 0;
+  margin: 0 0;
+  border: 1px solid black;
+  background-color:gray;
+}
+
+.radios input[type="radio"]:checked + label {
+  background-color: seagreen;
+}
+
+.radios label:hover {
+  background-color: darkgreen;
+}
+
+.example {
+  background-color: #eee;
+
+  padding: 8px;
+  margin-top: 8px;
+  clear: both;
+}
+
+/* Because the .example style contains a padding of 8px, it shows the background color even if
+   the div is empty. So that doesn't happen, the following style hides the div while it is empty */
+.example:empty {
+  display: none;
+}
+
+.zebra {
+  background: #fff;
+  background-image: -webkit-linear-gradient(#fff 50%, #eee 50%);
+  background-image:    -moz-linear-gradient(#fff 50%, #eee 50%);
+  background-image:     -ms-linear-gradient(#fff 50%, #eee 50%);
+  background-image:      -o-linear-gradient(#fff 50%, #eee 50%);
+  background-image:         linear-gradient(#fff 50%, #eee 50%);
+  background-position: 0 0;
+  background-repeat: repeat;
+  background-size: 3em 3em;
+}
+
