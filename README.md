@@ -1,3 +1,5 @@
 # classic_algorithms
 Collection of a few classic algorithms
-Java/Angular/Bootstrap/Sigma.js
+Java / Spring Boot
+Angular / TypeScript
+Bootstrap / Sigma.js
